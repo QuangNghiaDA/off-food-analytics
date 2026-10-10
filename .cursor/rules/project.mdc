@@ -28,4 +28,17 @@ alwaysApply: true
 - notebooks/: phân tích
 
 ## Schema thực tế của Parquet
-(Chưa có. Sẽ dán kết quả DESCRIBE vào đây sau khi khám phá dữ liệu.)
+- Nguồn: data/raw/food.parquet, 4.788.297 dòng, 111 cột; mỗi dòng là 1 sản phẩm
+- Cột lồng nhau: product_name = LIST<STRUCT(lang, text)>; nutriments = LIST<STRUCT(name, value, "100g", serving, unit, prepared_value, prepared_100g, prepared_serving, prepared_unit)>; các cột *_tags = LIST<VARCHAR>
+- Tên field "100g" bắt đầu bằng số nên khi truy cập phải đặt trong dấu nháy kép
+- created_t, last_modified_t là epoch giây (BIGINT)
+- code: có thể trùng và có mã rác (độ dài bất thường), cần dedup và kiểm tra ở staging
+- nutriscore_grade có các giá trị a-e, unknown, not-applicable
+- Cột đưa vào raw.off_products (31 cột): code, product_name, brands, brands_tags, categories_tags, food_groups_tags, countries_tags, nutriscore_grade, nutriscore_score, nova_group, environmental_score_grade, environmental_score_score, nutriments, nutrient_levels_tags, nutrition_data_per, no_nutrition_data, ingredients_n, additives_n, additives_tags, allergens_tags, ingredients_analysis_tags, ingredients_from_palm_oil_n, labels_tags, quantity, product_quantity, product_quantity_unit, completeness, data_quality_errors_tags, created_t, last_modified_t, lang, data_sources_tags
+- Cột lồng nhau và *_tags được chuyển thành JSON (VARCHAR) khi nạp vào raw
+- Không lấy các cột về người đóng góp (creator, editors, photographers, ...)
+- Chất lượng code: 60 mã trùng (giữ last_modified_t mới nhất), 1 mã rỗng (loại), 70.910 mã độ dài ngoài 8-14 (không xóa, gắn cờ is_valid_barcode)
+- nutriscore_grade: chỉ a-e là điểm thật (29,6%); unknown, not-applicable, NULL -> NULL ở cột nutriscore_grade_clean
+- product_name: lấy phần tử có lang = 'main'
+- nutriments: các name dùng là energy-kcal, fat, saturated-fat, carbohydrates, sugars, fiber, proteins, salt; giá trị lấy ở field "100g"
+- countries_tags: loại en:world khi phân tích theo quốc gia
