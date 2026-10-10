@@ -1,0 +1,10 @@
+.venv/
+data/
+.env
+__pycache__/
+.ipynb_checkpoints/
+*.parquet
+*.gz
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**

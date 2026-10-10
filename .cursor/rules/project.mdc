@@ -1,0 +1,31 @@
+---
+description: Quy ước cho dự án Open Food Facts ETL
+alwaysApply: true
+---
+# Dự án: Open Food Facts ETL (cá nhân, đưa lên GitHub)
+
+## Kiến trúc
+- Nguồn: file Parquet data/raw/food.parquet (Open Food Facts dump)
+- Đích: PostgreSQL 16 (chạy bằng Docker), schemas: raw -> staging -> core -> mart
+- Công cụ: Python 3.11, DuckDB (đọc Parquet, nạp vào Postgres), SQL thuần cho transform
+- Không dùng API để lấy dữ liệu hàng loạt
+
+## Quy ước bắt buộc
+- Cấu hình và mật khẩu chỉ lấy từ file .env qua src/config.py. Tuyệt đối không hard-code.
+- Không commit data/, .env, .venv/
+- Mã vạch (code) luôn là TEXT
+- Pipeline phải idempotent: chạy lại nhiều lần cho cùng kết quả, không nhân đôi dữ liệu
+- Bảng raw thêm cột _ingested_at và _source_file
+- Dùng logging (không dùng print), có xử lý lỗi, thoát với exit code khác 0 khi thất bại
+- Mỗi script có docstring ngắn nêu mục đích, đầu vào, đầu ra
+- Chỉ sửa đúng file hoặc phần được yêu cầu, không refactor phần khác
+- Không chạy lệnh DROP/DELETE ngoài các schema raw, staging, core, mart
+
+## Cấu trúc thư mục
+- src/: config.py, extract.py, load_raw.py, run_checks.py
+- sql/: 00_init_schemas.sql, 10_staging.sql, 20_core.sql, 30_mart.sql, 90_quality_checks.sql
+- docs/: data_notes.md, erd.png
+- notebooks/: phân tích
+
+## Schema thực tế của Parquet
+(Chưa có. Sẽ dán kết quả DESCRIBE vào đây sau khi khám phá dữ liệu.)
