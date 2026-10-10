@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: off_postgres
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/00_init_schemas.sql:/docker-entrypoint-initdb.d/00_init_schemas.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

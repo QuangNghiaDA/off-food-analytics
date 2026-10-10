@@ -34,7 +34,7 @@ alwaysApply: true
 - created_t, last_modified_t là epoch giây (BIGINT)
 - code: có thể trùng và có mã rác (độ dài bất thường), cần dedup và kiểm tra ở staging
 - nutriscore_grade có các giá trị a-e, unknown, not-applicable
-- Cột đưa vào raw.off_products (31 cột): code, product_name, brands, brands_tags, categories_tags, food_groups_tags, countries_tags, nutriscore_grade, nutriscore_score, nova_group, environmental_score_grade, environmental_score_score, nutriments, nutrient_levels_tags, nutrition_data_per, no_nutrition_data, ingredients_n, additives_n, additives_tags, allergens_tags, ingredients_analysis_tags, ingredients_from_palm_oil_n, labels_tags, quantity, product_quantity, product_quantity_unit, completeness, data_quality_errors_tags, created_t, last_modified_t, lang, data_sources_tags
+- Cột đưa vào raw.off_products (32 cột): code, product_name, brands, brands_tags, categories_tags, food_groups_tags, countries_tags, nutriscore_grade, nutriscore_score, nova_group, environmental_score_grade, environmental_score_score, nutriments, nutrient_levels_tags, nutrition_data_per, no_nutrition_data, ingredients_n, additives_n, additives_tags, allergens_tags, ingredients_analysis_tags, ingredients_from_palm_oil_n, labels_tags, quantity, product_quantity, product_quantity_unit, completeness, data_quality_errors_tags, created_t, last_modified_t, lang, data_sources_tags
 - Cột lồng nhau và *_tags được chuyển thành JSON (VARCHAR) khi nạp vào raw
 - Không lấy các cột về người đóng góp (creator, editors, photographers, ...)
 - Chất lượng code: 60 mã trùng (giữ last_modified_t mới nhất), 1 mã rỗng (loại), 70.910 mã độ dài ngoài 8-14 (không xóa, gắn cờ is_valid_barcode)
