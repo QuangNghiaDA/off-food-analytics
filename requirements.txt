@@ -4,3 +4,6 @@ requests
 python-dotenv
 pandas
 tqdm
+ipykernel
+sqlalchemy
+matplotlib
