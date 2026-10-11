@@ -16,7 +16,7 @@ Everything runs locally with one command: `python src/run_pipeline.py`.
 
 > Numbers come from the data snapshot loaded in October 2026 and will change as Open Food Facts is updated.
 
-- **Only about 30% of products have a real Nutri-Score (A-E).** Around 67% are `unknown`, so every comparison is made within the scored subset.
+- **Only about 29.6% of products have a real Nutri-Score (A-E).** Around 67% are `unknown`, so every comparison is made within the scored subset.
 - **Across the 10 countries with the most scored products, 44-56% of scored products are graded D or E**, and only 24-31% are A or B. The UK has the lowest share of D/E (43.7%); the US has the highest (56.0%).
 - **More processed food scores worse.** Among ~873k products with both NOVA and Nutri-Score, 75% of NOVA 1 (unprocessed) products are A/B, versus 14% of NOVA 4 (ultra-processed); D/E rises from 10% to 63%. This is a correlation, and both indicators are derived from product composition.
 - **Data completeness is falling over time.** The share of newly created products that have a Nutri-Score dropped from ~73% (2012) to 6% (2026, partial year) while the number of new products per year grew from ~4k to 600k+.
@@ -119,7 +119,7 @@ Python 3.11 · DuckDB · PostgreSQL 16 · Docker Compose · SQL · pandas · mat
 **Requirements:** Docker Desktop, Python 3.11+, and roughly 15 GB of free disk space (the Parquet file is several GB and the raw table is about 5.4 GB).
 
 ```bash
-git clone https://github.com/<your-username>/off-food-analytics.git
+git clone https://github.com/QuangNghiaDA/off-food-analytics.git
 cd off-food-analytics
 
 cp .env.example .env            # Windows: Copy-Item .env.example .env
@@ -131,7 +131,7 @@ python -m venv .venv
 source .venv/bin/activate       # Windows: .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
-python src/run_pipeline.py      # full run: roughly 30-60 minutes depending on hardware
+python src/run_pipeline.py      # full run: roughly 38m16s minutes depending on hardware
 ```
 
 Useful options:
@@ -174,9 +174,11 @@ The notebook answers six questions from the `mart` layer:
 5. How complete is the data per country?
 6. How has the database grown and changed in quality over time?
 
-![Nutri-Score by country](docs/img/q1_nutriscore_by_country.png)
-![NOVA vs Nutri-Score](docs/img/q3_nova_vs_nutriscore.png)
-![Products by year](docs/img/q6_products_by_year.png)
+![Nutri-Score distribution by country](docs/img/country_nutriscore.png)
+
+![NOVA vs Nutri-Score](docs/img/nova_vs_nutriscore.png)
+
+![Products created per year](docs/img/products_by_year.png)
 
 ## Limitations
 
@@ -200,4 +202,4 @@ This project contains information from [Open Food Facts](https://world.openfoodf
 
 ## Author
 
-<Your name> · <LinkedIn or GitHub link>
+Tran Quang Nghia · [LinkedIn](https://www.linkedin.com/in/tqnghia610/)
